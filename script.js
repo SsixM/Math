@@ -587,7 +587,7 @@ function drawBrouwer(ctx) {
 
 // 39. Проблема Базеля
 function drawBasel(ctx) {
-  const data=[], sum=0;
+  var data=[], sum=0;
   for(let i=1;i<1000;i++){ sum+=1/(i*i); data.push(sum); }
   new Chart(ctx, {type:'line', data:{datasets:[{data, borderColor:'#00f0ff'}]}, options:{plugins:{title:{display:true,text:'Σ 1/n² → π²/6'}}}});
 }
@@ -787,31 +787,3 @@ window.addEventListener('load', () => {
     }, i * 100);
   });
 });
-
-// Three.js фон
-const script = document.createElement('script');
-script.src = "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.min.js";
-script.onload = () => {
-  const s2 = document.createElement('script');
-  s2.src = "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/js/controls/OrbitControls.js";
-  s2.onload = () => {
-    const renderer = new THREE.WebGLRenderer({canvas: document.getElementById('bg'), alpha:true});
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    camera.position.z = 30;
-    const geometry = new THREE.TorusKnotGeometry(10, 3, 300, 16);
-    const material = new THREE.MeshBasicMaterial({color:0x00f0ff, wireframe:true});
-    const knot = new THREE.Mesh(geometry, material);
-    scene.add(knot);
-    const animate = () => {
-      requestAnimationFrame(animate);
-      knot.rotation.x += 0.005; knot.rotation.y += 0.01;
-      renderer.render(scene, camera);
-    };
-    animate();
-    window.addEventListener('resize', () => renderer.setSize(window.innerWidth, window.innerHeight));
-  };
-  document.body.appendChild(s2);
-};
-document.body.appendChild(script);
